@@ -19,6 +19,10 @@
             <a href="#" class="menu-link">blackjack</a>
             <a href="#" class="menu-link">carrera de caballos</a>
         </div>
+        <div class="user-info">
+            <p id="userNameDisplay"></p>
+            <p id="userSaldoDisplay"></p>
+        </div>
     </header>
 
     <main>
@@ -57,6 +61,19 @@
     <footer>adiosa</footer>
 
     <script src="slots.js"></script>
+    <script>
+        const name = localStorage.getItem('userName');
+        const saldo = localStorage.getItem('userSaldo');
+
+        if (!name) {
+            // Si no hay usuario logueado, redirige al login
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('userNameDisplay').textContent = `👋 Bienvenido, ${name}`;
+            document.getElementById('userSaldoDisplay').textContent = `💰 Saldo: ${saldo}`;
+        }
+    </script>
+
 </body>
 
 </html>

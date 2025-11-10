@@ -3,14 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crear Cuenta</title>
+  <title>Acceso</title>
   <link rel="stylesheet" href="styleLogin.css">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
   <div class="form-container">
-    <h2>Crear Cuenta</h2>
-    <form action="http://localhost:3000/register" method="post">
+
+    <!-- Pestañas -->
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-register">Crear Cuenta</button>
+      <button class="tab-btn" id="tab-login">Iniciar Sesión</button>
+    </div>
+
+    <!-- Formulario de Registro -->
+    <form id="register-form" action="http://localhost:3000/register" method="post">
+      <h2>Crear Cuenta</h2>
       <div class="input-group">
         <label for="full-name">Nombre Completo</label>
         <input type="text" id="full-name" name="fullName" placeholder="Donald Dak" required minlength="3">
@@ -37,9 +45,45 @@
       </div>
       <button type="submit" class="submit-btn" disabled>Crear Cuenta</button>
     </form>
+
+    <!-- Formulario de Login -->
+    <form id="login-form" action="http://localhost:3000/login" method="post" style="display:none;">
+      <h2>Iniciar Sesión</h2>
+      <div class="input-group">
+        <label for="login-email">E-mail Address</label>
+        <input type="email" id="login-email" name="emailAddress" placeholder="tuemail@ejemplo.com" required>
+      </div>
+      <div class="input-group">
+        <label for="login-password">Contraseña</label>
+        <input type="password" id="login-password" name="password" required>
+      </div>
+      <button type="submit" class="submit-btn">Entrar</button>
+    </form>
+
   </div>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="login.js"></script>
+  <script>
+    // Script para cambiar entre pestañas
+    const tabRegister = document.getElementById('tab-register');
+    const tabLogin = document.getElementById('tab-login');
+    const registerForm = document.getElementById('register-form');
+
+    tabRegister.addEventListener('click', () => {
+      tabRegister.classList.add('active');
+      tabLogin.classList.remove('active');
+      registerForm.style.display = 'block';
+      loginForm.style.display = 'none';
+    });
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+      registerForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    });
+  </script>
 </body>
 </html>

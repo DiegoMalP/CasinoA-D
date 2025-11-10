@@ -78,10 +78,46 @@ paises.forEach(pais => {
   select.appendChild(opcion);
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
   $('#country').select2({
     templateResult: formatCountry,
     templateSelection: formatCountry,
     minimumResultsForSearch: -1
   });
 });
+
+// --- LOGIN ---
+const loginForm = document.getElementById('login-form');
+
+if (loginForm) {
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Evita que recargue la página
+
+    const emailAddress = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emailAddress, password })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Guardar info del usuario en el navegador
+        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userSaldo', data.saldo);
+
+        // Redirigir a la página principal
+        window.location.href = 'main.html';
+      } else {
+        alert(data.message || 'Email o contraseña incorrectos');
+      }
+    } catch (error) {
+      alert('Error al conectar con el servidor');
+      console.error(error);
+    }
+  });
+}
