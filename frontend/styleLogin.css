@@ -1,93 +1,137 @@
-/* Login container */
-.form-container.login {
-    background-color: #222; /* fondo oscuro */
-    color: white;
-    box-shadow: 0 0 15px gold;
-    padding: 40px;
+/* BODY */
+body {
+    font-family: 'Arial', Helvetica, sans-serif;
+    background: linear-gradient(135deg, #f8f8f8, #e0e0e0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+/* CONTAINER */
+.form-container {
+    background-color: #fff;
+    padding: 40px 35px;
     border-radius: 12px;
     width: 100%;
-    max-width: 380px;
+    max-width: 400px;
     box-sizing: border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Título */
-.form-container.login h2 {
+.form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* TITULO */
+h2 {
     text-align: center;
-    color: gold;
+    margin-bottom: 30px;
+    font-weight: 700;
     font-size: 1.8rem;
-    margin-bottom: 25px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #555;
+    color: #007bff;
+    position: relative;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #ddd;
 }
 
-/* Input fields */
-.form-container.login input[type="email"],
-.form-container.login input[type="password"] {
+/* INPUT GROUP */
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* INPUTS */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
     border-radius: 6px;
-    border: 1px solid #555;
-    background-color: #333;
-    color: white;
+    box-sizing: border-box;
     font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: 0.3s;
+    background-color: #fafafa;
 }
 
-.form-container.login input:focus {
-    border-color: gold;
+input:focus,
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
     outline: none;
-    box-shadow: 0 0 6px gold;
 }
 
-/* Submit button */
-.form-container.login .submit-btn {
+/* VALIDACION */
+input[required]:valid:not(:focus),
+select[required]:valid:not(:focus) {
+    border-color: #28a745;
+}
+
+/* CHECKBOX */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    accent-color: #007bff;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    margin-left: 10px;
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+/* BOTON */
+.submit-btn {
     width: 100%;
-    padding: 12px;
-    background-color: gold;
-    color: black;
+    padding: 14px;
+    background: linear-gradient(90deg, #007bff, #00aaff);
+    color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1.05rem;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s;
 }
 
-.form-container.login .submit-btn:hover {
-    background-color: #ffcc00;
-    box-shadow: 0 0 10px gold;
+.submit-btn:hover {
+    background: linear-gradient(90deg, #0056b3, #0088cc);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Checkbox "Recuérdame" */
-.form-container.login .checkbox-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+.submit-btn:active {
+    transform: translateY(2px);
 }
 
-.form-container.login .checkbox-group input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: gold;
-    cursor: pointer;
-}
-
-.form-container.login .checkbox-group label {
-    margin-left: 10px;
-    color: #ddd;
-    font-weight: normal;
-}
-
-/* Tabs (si las usas en login) */
-.form-container.login .tabs {
+/* TABS */
+.tabs {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #555;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ddd;
 }
 
-.form-container.login .tab-btn {
+.tab-btn {
     flex: 1;
     background: none;
     border: none;
@@ -95,15 +139,15 @@
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    color: #bbb;
-    transition: all 0.3s;
+    color: #777;
+    transition: 0.3s;
 }
 
-.form-container.login .tab-btn.active {
-    color: gold;
-    border-bottom: 3px solid gold;
+.tab-btn.active {
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
 }
 
-.form-container.login .tab-btn:hover {
-    color: #ffcc00;
+.tab-btn:hover {
+    color: #0056b3;
 }
