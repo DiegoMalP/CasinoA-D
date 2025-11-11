@@ -72,7 +72,14 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
+
+app.get('/', (req, res) => {
+  res.send('✅ Backend funcionando correctamente');
+});
+
 // 🚀 Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor activo en http://localhost:${PORT}`);
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Servidor activo en puerto ${PORT}`);
 });
