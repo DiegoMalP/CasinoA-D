@@ -121,3 +121,42 @@ if (loginForm) {
     }
   });
 }
+
+// --- REGISTRO ---
+const registerForm = document.getElementById('register-form');
+
+if (registerForm) {
+  registerForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Evita que recargue la página
+
+    const fullName = nombre.value;
+    const emailAddress = email.value;
+    const pass = password.value;
+    const country = select.value;
+    const agreeRules = cond.checked;
+
+    try {
+      const response = await fetch('https://casinoa-d.onrender.com/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName, emailAddress, password: pass, country, agreeRules })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Guardar info del usuario en el navegador
+        localStorage.setItem('userName', fullName);
+        localStorage.setItem('userSaldo', data.saldo || 999999);
+
+        // Redirigir a la página principal
+        window.location.href = 'main.html';
+      } else {
+        alert(data.message || 'Error al crear la cuenta');
+      }
+    } catch (error) {
+      alert('Error al conectar con el servidor');
+      console.error(error);
+    }
+  });
+}
