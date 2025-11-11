@@ -1,165 +1,93 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f8f8f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    color: #333;
-}
-
+/* Login container */
 .form-container.login {
-    background-color: #222;
-    /* fondo oscuro */
+    background-color: #222; /* fondo oscuro */
     color: white;
-    box-shadow: 0 0 10px gold;
+    box-shadow: 0 0 15px gold;
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px;
+    box-sizing: border-box;
 }
 
-.form-container.login input,
-.form-container.login select {
+/* Título */
+.form-container.login h2 {
+    text-align: center;
+    color: gold;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #555;
+}
+
+/* Input fields */
+.form-container.login input[type="email"],
+.form-container.login input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #555;
     background-color: #333;
     color: white;
-    border: 1px solid #555;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-container.login input:focus,
-.form-container.login select:focus {
+.form-container.login input:focus {
     border-color: gold;
-    box-shadow: 0 0 5px gold;
+    outline: none;
+    box-shadow: 0 0 6px gold;
 }
 
+/* Submit button */
 .form-container.login .submit-btn {
+    width: 100%;
+    padding: 12px;
     background-color: gold;
     color: black;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .form-container.login .submit-btn:hover {
     background-color: #ffcc00;
+    box-shadow: 0 0 10px gold;
 }
 
-
-h2 {
-    /* Ajustes para elevar y añadir la línea */
-    text-align: center;
-    margin-bottom: 25px;
-    /* Reducimos el margen inferior */
-    margin-top: -10px;
-    /* Movemos el título un poco hacia arriba */
-    font-weight: 600;
-    font-size: 1.6rem;
-    color: #444;
-
-    /* Añadimos la línea sutil debajo */
-    padding-bottom: 10px;
-    border-bottom: 2px solid #ddd;
-    /* Línea gris muy suave */
-}
-
-.input-group {
+/* Checkbox "Recuérdame" */
+.form-container.login .checkbox-group {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: #555;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: #fff;
-}
-
-input:focus,
-select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-#email:focus {
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
-}
-
-input[required]:valid:not(:focus),
-select[required]:valid:not(:focus) {
-    border-color: #28a745;
-}
-
-
-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%236c757d' d='M9.293 12.95l-.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 1em;
-    padding-right: 30px;
-}
-
-
-.checkbox-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.checkbox-group label {
-    margin-bottom: 0;
-    margin-left: 10px;
-    font-weight: normal;
-    font-size: 0.9rem;
-    user-select: none;
-}
-
-input[type="checkbox"] {
-    accent-color: #28a745;
+.form-container.login .checkbox-group input[type="checkbox"] {
     width: 18px;
     height: 18px;
+    accent-color: gold;
     cursor: pointer;
 }
 
-.submit-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
+.form-container.login .checkbox-group label {
+    margin-left: 10px;
+    color: #ddd;
+    font-weight: normal;
 }
 
-.submit-btn:hover {
-    background-color: #0056b3;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.submit-btn:active {
-    transform: translateY(1px);
-}
-
-.tabs {
+/* Tabs (si las usas en login) */
+.form-container.login .tabs {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid #555;
 }
 
-.tab-btn {
+.form-container.login .tab-btn {
     flex: 1;
     background: none;
     border: none;
@@ -167,15 +95,15 @@ input[type="checkbox"] {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    color: #555;
+    color: #bbb;
     transition: all 0.3s;
 }
 
-.tab-btn.active {
-    color: #007bff;
-    border-bottom: 3px solid #007bff;
+.form-container.login .tab-btn.active {
+    color: gold;
+    border-bottom: 3px solid gold;
 }
 
-.tab-btn:hover {
-    color: #0056b3;
+.form-container.login .tab-btn:hover {
+    color: #ffcc00;
 }
