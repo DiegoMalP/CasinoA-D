@@ -40,6 +40,38 @@
     color: black;
 }
 
+.user-info {
+    background-color: #222;
+    /* fondo oscuro como tus tragaperras */
+    border: 2px solid gold;
+    /* borde dorado que encaja con tu tema */
+    border-radius: 15px;
+    padding: 20px;
+    width: 250px;
+    margin: 20px auto;
+    text-align: center;
+    box-shadow: 0 0 10px gold;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.user-info p {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.user-info p#userNameDisplay {
+    color: gold;
+    font-weight: bold;
+}
+
+.user-info p#userSaldoDisplay {
+    color: #00ff00;
+    /* verde para saldo, contraste con fondo */
+    font-weight: bold;
+}
+
+
 #TextoMain {
     color: white;
     text-align: center;
@@ -75,7 +107,7 @@
 .contenedor-traga {
     display: flex;
     justify-content: center;
-    align-items: stretch;    
+    align-items: stretch;
     gap: 20px;
     flex-wrap: wrap;
     padding: 20px;

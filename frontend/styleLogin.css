@@ -1,4 +1,4 @@
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f8f8f8;
     display: flex;
@@ -9,35 +9,58 @@ body{
     color: #333;
 }
 
-.form-container{
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 380px;
-    box-sizing: border-box;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+.form-container.login {
+    background-color: #222;
+    /* fondo oscuro */
+    color: white;
+    box-shadow: 0 0 10px gold;
 }
 
-h2{
+.form-container.login input,
+.form-container.login select {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+}
+
+.form-container.login input:focus,
+.form-container.login select:focus {
+    border-color: gold;
+    box-shadow: 0 0 5px gold;
+}
+
+.form-container.login .submit-btn {
+    background-color: gold;
+    color: black;
+}
+
+.form-container.login .submit-btn:hover {
+    background-color: #ffcc00;
+}
+
+
+h2 {
     /* Ajustes para elevar y añadir la línea */
     text-align: center;
-    margin-bottom: 25px; /* Reducimos el margen inferior */
-    margin-top: -10px; /* Movemos el título un poco hacia arriba */
+    margin-bottom: 25px;
+    /* Reducimos el margen inferior */
+    margin-top: -10px;
+    /* Movemos el título un poco hacia arriba */
     font-weight: 600;
     font-size: 1.6rem;
     color: #444;
-    
+
     /* Añadimos la línea sutil debajo */
     padding-bottom: 10px;
-    border-bottom: 2px solid #ddd; /* Línea gris muy suave */
+    border-bottom: 2px solid #ddd;
+    /* Línea gris muy suave */
 }
 
-.input-group{
+.input-group {
     margin-bottom: 20px;
 }
 
-label{
+label {
     display: block;
     margin-bottom: 6px;
     font-weight: bold;
@@ -48,7 +71,7 @@ label{
 input[type="text"],
 input[type="email"],
 input[type="password"],
-select{
+select {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid #ddd;
@@ -60,24 +83,24 @@ select{
 }
 
 input:focus,
-select:focus{
+select:focus {
     border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-#email:focus{
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.7); 
+#email:focus {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
 }
 
-input[required]:valid:not(:focus), 
+input[required]:valid:not(:focus),
 select[required]:valid:not(:focus) {
     border-color: #28a745;
 }
 
 
-select{
-    appearance: none; 
+select {
+    appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%236c757d' d='M9.293 12.95l-.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
@@ -86,13 +109,13 @@ select{
 }
 
 
-.checkbox-group{
+.checkbox-group {
     display: flex;
     align-items: center;
     margin-bottom: 25px;
 }
 
-.checkbox-group label{
+.checkbox-group label {
     margin-bottom: 0;
     margin-left: 10px;
     font-weight: normal;
@@ -100,14 +123,14 @@ select{
     user-select: none;
 }
 
-input[type="checkbox"]{
-    accent-color: #28a745; 
+input[type="checkbox"] {
+    accent-color: #28a745;
     width: 18px;
     height: 18px;
     cursor: pointer;
 }
 
-.submit-btn{
+.submit-btn {
     width: 100%;
     padding: 12px;
     background-color: #007bff;
@@ -120,14 +143,15 @@ input[type="checkbox"]{
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.submit-btn:hover{
+.submit-btn:hover {
     background-color: #0056b3;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.submit-btn:active{
-    transform: translateY(1px); 
+.submit-btn:active {
+    transform: translateY(1px);
 }
+
 .tabs {
     display: flex;
     justify-content: center;
