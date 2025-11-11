@@ -25,51 +25,49 @@
     gap: 15px;
 }
 
-.menu-link {
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    background-color: #333;
-    color: white;
-    font-weight: bold;
-    transition: 0.2s;
+.cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Imagen a la izquierda, usuario a la derecha */
+    background-color: #111;
+    padding: 10px 30px;
 }
 
-.menu-link:hover {
-    background-color: gold;
-    color: black;
-}
-
+/* User info alineado a la derecha */
 .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* Alinea los textos a la derecha */
     background-color: #222;
-    /* fondo oscuro como tus tragaperras */
     border: 2px solid gold;
-    /* borde dorado que encaja con tu tema */
     border-radius: 15px;
-    padding: 20px;
-    width: 250px;
-    margin: 20px auto;
-    text-align: center;
-    box-shadow: 0 0 10px gold;
+    padding: 15px 20px;
     color: white;
     font-family: Arial, sans-serif;
+    min-width: 200px;
+    /* ancho mínimo para que no se encoja demasiado */
+    box-shadow: 0 0 10px gold;
 }
 
 .user-info p {
-    margin: 10px 0;
-    font-size: 18px;
+    margin: 5px 0;
+    font-size: 16px;
 }
 
 .user-info p#userNameDisplay {
     color: gold;
     font-weight: bold;
+    text-align: right;
 }
 
 .user-info p#userSaldoDisplay {
     color: #00ff00;
-    /* verde para saldo, contraste con fondo */
     font-weight: bold;
+    text-align: right;
 }
+
 
 
 #TextoMain {
