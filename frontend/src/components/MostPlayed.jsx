@@ -2,6 +2,7 @@ import Slot from "../Imagenes/slot-machine.png"
 import Poker from "../Imagenes/poker-hand.png"
 import Roulette from "../Imagenes/roulette-svgrepo-com.png"
 import Horses from "../Imagenes/horse-riding-person-people-rider-svgrepo-com.png"
+import '../styles/mostplayed.css'
 
 export default function MostPlayed() {
     return (

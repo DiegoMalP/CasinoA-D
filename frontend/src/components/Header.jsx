@@ -1,4 +1,5 @@
 import Logo from "../Imagenes/f5a7bb8ca74b4191aa7a40d9c1788cdd-free.png"
+import '../styles/header.css'
 
 export default function Header({ userName, userSaldo }) {
     return (
