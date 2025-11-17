@@ -7,7 +7,7 @@ export default function App() {
   const [page, setPage] = useState("login");
   const user = localStorage.getItem("userName");
 
-  if (user) {
+  if (user && user !== "") {
     return <Casino />;
   }
 
