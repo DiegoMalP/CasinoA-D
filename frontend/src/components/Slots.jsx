@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState } from "react";
 
-import '../styles/slots.css'
-
 export default function TragaPremios() {
     const canvasRef = useRef(null);
     const [msg, setMsg] = useState("¡Haz click para jugar!");
