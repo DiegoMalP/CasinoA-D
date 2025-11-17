@@ -1,6 +1,6 @@
-import Slots from "./components/Slots";
-import Header from "./components/Header";
-import MostPlayed from "./components/MostPlayed";
+import Slots from "../components/Slots.jsx";
+import Header from "../components/Header.jsx";
+import MostPlayed from "../components/MostPlayed.jsx";
 
 
 export default function Casino() {

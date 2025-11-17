@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Casino from "./components/Casino";
+import Login from "./components/Login.jsx";
+import Register from "./components/Register.jsx";
+import Casino from "./pages/Casino.jsx";
 
 export default function App() {
   const [page, setPage] = useState("login");
