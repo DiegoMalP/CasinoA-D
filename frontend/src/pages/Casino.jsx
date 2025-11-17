@@ -1,7 +1,7 @@
 import Slots from "../components/Slots.jsx";
 import Header from "../components/Header.jsx";
 import MostPlayed from "../components/MostPlayed.jsx";
-import '../styles/casino.css.css'
+import '../styles/casino.css'
 
 export default function Casino() {
     // Obtener usuario y saldo desde localStorage
