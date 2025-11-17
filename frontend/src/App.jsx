@@ -8,7 +8,7 @@ export default function App() {
   const user = localStorage.getItem("userName");
 
   if (user) {
-    return <Casino />; // <-- aquí mostramos el casino si hay usuario
+    return <Casino />;
   }
 
   return (
