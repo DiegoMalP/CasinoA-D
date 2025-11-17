@@ -4,11 +4,11 @@ export default function TragaPremios() {
     const canvasRef = useRef(null);
     const [msg, setMsg] = useState("¡Haz click para jugar!");
     const simbolos = [
-        "../Imagenes/slots/cereza.png",
-        "../Imagenes/slots/limon.png",
-        "../Imagenes/slots/estrella.png",
-        "../Imagenes/slots/diamante.png",
-        "../Imagenes/slots/campana.png"
+        "./Imagenes/slots/cereza.png",
+        "./imagenes/slots/limon.png",
+        "./Imagenes/slots/estrella.png",
+        "./Imagenes/slots/diamante.png",
+        "./Imagenes/slots/campana.png"
     ];
 
     const imagenes = useRef([]);
