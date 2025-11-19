@@ -3,19 +3,13 @@ import Header from "../components/Header.jsx";
 import MostPlayed from "../components/MostPlayed.jsx";
 import "../styles/Casino.css";
 
-export default function Casino() {
-    // Obtener usuario y saldo desde localStorage
-    const userName = localStorage.getItem("userName") || "Invitado";
-    const userSaldo = localStorage.getItem("userSaldo") || 0;
-
+export default function Casino({ user, setUser, logout }) {
     return (
-        <div className="casino-page">
-            <Header />
-            <main>
-                <MostPlayed />
-                <Slots />
-            </main>
+        <main className="cuerpo">
+            <Header user={user} logout={logout} />
+            <MostPlayed />
+            <Slots user={user} setUser={setUser} />
             <footer>adiosa</footer>
-        </div>
+        </main>
     );
 }

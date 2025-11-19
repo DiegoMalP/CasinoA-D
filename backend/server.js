@@ -14,8 +14,8 @@ app.use(bodyParser.json());
 // 🗄️ Conexión a MongoDB Atlas usando variable de entorno
 const dbURI = process.env.MONGO_URI || 'mongodb+srv://martinezmora01_db_user:8FOGK6PIK0K5iYgc@cluster0.f9b0bsn.mongodb.net/?appName=Cluster0';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('✅ Conectado a MongoDB Atlas'))
-    .catch(err => console.error('❌ Error al conectar a MongoDB:', err));
+  .then(() => console.log('✅ Conectado a MongoDB Atlas'))
+  .catch(err => console.error('❌ Error al conectar a MongoDB:', err));
 
 // 📦 Esquema y modelo de usuario
 const userSchema = new mongoose.Schema({
@@ -72,6 +72,29 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Actualizar saldo de un usuario
+app.post('/updateSaldo', async (req, res) => {
+  try {
+    const { userName, saldo } = req.body;
+
+    // Buscar el usuario por nombre y actualizar saldo
+    const user = await User.findOneAndUpdate(
+      { fullName: userName },
+      { saldo: saldo },
+      { new: true } // retorna el documento actualizado
+    );
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+    }
+
+    res.json({ success: true, saldo: user.saldo });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error en el servidor' });
+  }
+});
 
 
 app.get('/', (req, res) => {

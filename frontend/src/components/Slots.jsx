@@ -1,21 +1,24 @@
 import { useRef, useEffect, useState } from "react";
+import Cereza from "../Imagenes/slots/cereza.png";
+import Limon from "../Imagenes/slots/limon.png";
+import Estrella from "../Imagenes/slots/estrella.png";
+import Diamante from "../Imagenes/slots/diamante.png";
+import Campana from "../Imagenes/slots/campana.png";
+import "../styles/Casino.css";
 
-export default function TragaPremios() {
+export default function TragaPremios({ user, setUser }) {
     const canvasRef = useRef(null);
     const [msg, setMsg] = useState("¡Haz click para jugar!");
-    const simbolos = [
-        "./Imagenes/slots/cereza.png",
-        "./imagenes/slots/limon.png",
-        "./Imagenes/slots/estrella.png",
-        "./Imagenes/slots/diamante.png",
-        "./Imagenes/slots/campana.png"
-    ];
+    const simbolos = [Cereza, Limon, Estrella, Diamante, Campana];
 
     const imagenes = useRef([]);
     const posiciones = useRef([0, 0, 0]);
     const girando = useRef(false);
 
-    // Cargar imágenes al montar
+    // Premios asociados a cada símbolo
+    const premios = [50, 100, 200, 500, 1000];
+
+    // Cargar imágenes
     useEffect(() => {
         let cargadas = 0;
         simbolos.forEach(src => {
@@ -80,14 +83,52 @@ export default function TragaPremios() {
         const s2 = Math.floor(posiciones.current[1]) % imagenes.current.length;
         const s3 = Math.floor(posiciones.current[2]) % imagenes.current.length;
 
-        if (s1 === s2 && s2 === s3) setMsg("🎉 ¡Triple!");
-        else if (s1 === s2 || s2 === s3 || s1 === s3) setMsg("✨ ¡Doble!");
-        else setMsg("😢 Sin premio.");
+        let premio = 0;
+
+        if (s1 === s2 && s2 === s3) {
+            setMsg("🎉 ¡Triple!");
+            premio = premios[s1];
+        } else if (s1 === s2 || s2 === s3 || s1 === s3) {
+            setMsg("✨ ¡Doble!");
+            // Premio menor del símbolo repetido
+            premio = premios[s1] / 2;
+        } else {
+            setMsg("😢 Sin premio.");
+        }
+
+        if (premio > 0) actualizarSaldo(premio);
+    };
+
+    const actualizarSaldo = async (cantidad) => {
+        const nuevoSaldo = user.saldo + cantidad;
+
+        try {
+            const res = await fetch("https://casinoa-d.onrender.com/updateSaldo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userName: user.name, saldo: nuevoSaldo }),
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                // Actualizamos estado y localStorage solo si el backend fue exitoso
+                setUser({ ...user, saldo: data.saldo });
+                localStorage.setItem("userSaldo", data.saldo);
+                console.log("Saldo actualizado correctamente:", data.saldo);
+                setMsg(prev => `${prev} 🎉 Ganaste ${cantidad} puntos!`);
+            } else {
+                console.error("Error al actualizar saldo:", data.message);
+                setMsg("❌ No se pudo actualizar el saldo.");
+            }
+        } catch (err) {
+            console.error("Error de conexión con el backend:", err);
+            setMsg("❌ Error de conexión con el servidor.");
+        }
     };
 
     return (
-        <div className="juegos-container" style={{ display: "flex", gap: "40px", alignItems: "flex-start" }}>
-            {/* Premios */}
+        <div className="contenedor-traga">
             <div className="premios">
                 <h2>💎 Premios</h2>
                 <ul>
@@ -99,7 +140,6 @@ export default function TragaPremios() {
                 </ul>
             </div>
 
-            {/* Tragaperras */}
             <div className="tragaperras">
                 <h1>🎰 Tragaperras</h1>
                 <canvas ref={canvasRef} width={300} height={150}></canvas>

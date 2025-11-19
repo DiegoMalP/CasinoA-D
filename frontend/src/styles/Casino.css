@@ -1,13 +1,102 @@
-casino-page {
+.cuerpo {
+    background-color: #000;
+    font-family: Arial, sans-serif;
     margin: 0;
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-    background: radial-gradient(circle at 20% 20%, rgba(255, 0, 102, 0.15), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(0, 200, 255, 0.15), transparent 40%),
-        #0a0f1a;
-    color: #eaeaea;
-    padding: 20px;
+    padding: 0;
     min-height: 100vh;
+}
+
+.contenedor-traga {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #111;
+    border-radius: 20px;
+    box-shadow: 0 0 3px gold;
+    margin: 20px;
+}
+
+.tragaperras {
+    background-color: #222;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.tragaperras h1 {
+    color: gold;
+    margin-bottom: 15px;
+}
+
+#slot {
+    background-color: #999;
+    border: 2px solid #666;
+    border-radius: 10px;
+}
+
+.tragaperras button {
+    background-color: gold;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tragaperras button:hover {
+    background-color: #ffcc00;
+}
+
+#msg {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+}
+
+.premios {
+    background-color: #222;
+    border-radius: 15px;
+    padding: 10px;
+    color: white;
+    width: 300px;
+}
+
+.premios h2 {
+    text-align: center;
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.premios ul {
+    list-style: none;
+    padding: 0;
+}
+
+.premios li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    background-color: #333;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+.premios span {
+    color: gold;
+    font-weight: bold;
+}
+
+.resaltado {
+    background-color: gold;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
 }

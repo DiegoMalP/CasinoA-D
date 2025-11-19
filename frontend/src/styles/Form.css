@@ -1,31 +1,13 @@
-/* BODY */
-body {
-    font-family: 'Arial', Helvetica, sans-serif;
-    background: linear-gradient(135deg, #222, #444, #ffd700);
+.login-page {
+    min-height: 100vh;
+    width: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    color: #333;
-    animation: gradientMove 15s ease infinite;
+    text-align: center;
+    margin: 10px;
 }
 
-@keyframes gradientMove {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* CONTAINER */
 .form-container {
     background-color: black;
     padding: 40px 35px;
@@ -36,7 +18,6 @@ body {
     box-shadow: -8px 8px 20px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s, box-shadow 0.3s;
     border: 2px solid #ffd700;
-    /* dorado */
     border-radius: 10px;
 }
 

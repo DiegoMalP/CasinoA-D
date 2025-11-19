@@ -2,6 +2,26 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #111;
+    padding: 10px 30px;
+}
+
+.casino img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid gold;
+    border-radius: 5px;
+}
+
+.contenedor {
+    display: flex;
+    gap: 15px;
+}
+
+.cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     /* Imagen a la izquierda, usuario a la derecha */
     background-color: #111;
     padding: 10px 30px;
@@ -39,13 +59,4 @@
     color: #00ff00;
     font-weight: bold;
     text-align: right;
-}
-
-
-
-#TextoMain {
-    color: white;
-    text-align: center;
-    font-size: 24px;
-    margin-top: 30px;
 }

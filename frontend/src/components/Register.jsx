@@ -52,76 +52,79 @@ export default function Register({ goLogin }) {
   };
 
   return (
-    <div className="form-container">
-      <h2>Registro</h2>
+    <div className="login-page">
 
-      <form onSubmit={handleRegister}>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Nombre completo"
-            value={fullName}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+      <div className="form-container">
+        <h2>Registro</h2>
 
-        <div className="input-group">
-          <input
-            type="email"
-            placeholder="Correo"
-            value={emailAddress}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        <form onSubmit={handleRegister}>
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Nombre completo"
+              value={fullName}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
 
-        <div className="input-group">
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPass(e.target.value)}
-          />
-        </div>
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="Correo"
+              value={emailAddress}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-        <div className="input-group">
-          <input
-            type="password"
-            placeholder="Repite la contraseña"
-            value={rePass}
-            onChange={(e) => setRePass(e.target.value)}
-          />
-        </div>
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPass(e.target.value)}
+            />
+          </div>
 
-        <div className="input-group">
-          <select value={country} onChange={(e) => setCountry(e.target.value)}>
-            <option value="es">🇪🇸 España</option>
-            <option value="fr">🇫🇷 Francia</option>
-            <option value="de">🇩🇪 Alemania</option>
-            <option value="it">🇮🇹 Italia</option>
-            <option value="gb">🇬🇧 Reino Unido</option>
-            <option value="pt">🇵🇹 Portugal</option>
-            <option value="nl">🇳🇱 Países Bajos</option>
-            <option value="se">🇸🇪 Suecia</option>
-          </select>
-        </div>
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Repite la contraseña"
+              value={rePass}
+              onChange={(e) => setRePass(e.target.value)}
+            />
+          </div>
 
-        <div className="checkbox-group">
-          <input
-            type="checkbox"
-            checked={agreeRules}
-            onChange={(e) => setAgree(e.target.checked)}
-          />
-          <span>Acepto los términos</span>
-        </div>
+          <div className="input-group">
+            <select value={country} onChange={(e) => setCountry(e.target.value)}>
+              <option value="es">🇪🇸 España</option>
+              <option value="fr">🇫🇷 Francia</option>
+              <option value="de">🇩🇪 Alemania</option>
+              <option value="it">🇮🇹 Italia</option>
+              <option value="gb">🇬🇧 Reino Unido</option>
+              <option value="pt">🇵🇹 Portugal</option>
+              <option value="nl">🇳🇱 Países Bajos</option>
+              <option value="se">🇸🇪 Suecia</option>
+            </select>
+          </div>
 
-        <button type="submit" className="submit-btn">
-          Crear cuenta
-        </button>
-      </form>
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              checked={agreeRules}
+              onChange={(e) => setAgree(e.target.checked)}
+            />
+            <span>Acepto los términos</span>
+          </div>
 
-      <p onClick={goLogin} style={{ cursor: "pointer", color: "gold" }}>
-        ¿Ya tienes cuenta? Inicia sesión
-      </p>
+          <button type="submit" className="submit-btn">
+            Crear cuenta
+          </button>
+        </form>
+
+        <p onClick={goLogin} style={{ cursor: "pointer", color: "gold" }}>
+          ¿Ya tienes cuenta? Inicia sesión
+        </p>
+      </div>
     </div>
   );
 }
