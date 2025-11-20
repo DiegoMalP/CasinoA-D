@@ -8,8 +8,8 @@ export default function Header({ user, logout }) {
                 <img src={Logo} alt="Logo Casino" />
             </a>
             <div className="user-info">
-                <p>👋 Bienvenido: {user.name || "Invitado"}</p>
-                <p>💰 Saldo: {user.saldo || 0}</p>
+                <p className="user">👋 Bienvenido: {user.name || "Invitado"}</p>
+                <p className="money">💰 Saldo: {user.saldo || 0}</p>
                 <button onClick={logout}>Cerrar sesión</button>
             </div>
         </header>

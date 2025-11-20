@@ -4,59 +4,70 @@
     justify-content: space-between;
     background-color: #111;
     padding: 10px 30px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 .casino img {
-    width: 100px;
-    height: 100px;
-    border: 1px solid gold;
-    border-radius: 5px;
+    width: 80px;
+    height: auto;
+    border: 2px solid gold;
+    border-radius: 8px;
+    transition: transform 0.3s;
 }
 
-.contenedor {
-    display: flex;
-    gap: 15px;
+.casino img:hover {
+    transform: scale(1.1);
 }
 
-.cabecera {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* Imagen a la izquierda, usuario a la derecha */
-    background-color: #111;
-    padding: 10px 30px;
-}
-
-/* User info alineado a la derecha */
 .user-info {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* Alinea los textos a la derecha */
     background-color: #222;
     border: 2px solid gold;
     border-radius: 15px;
     padding: 15px 20px;
-    color: white;
-    font-family: Arial, sans-serif;
     min-width: 200px;
-    /* ancho mínimo para que no se encoja demasiado */
     box-shadow: 0 0 10px gold;
+    font-family: Arial, sans-serif;
+    text-align: left;
 }
 
 .user-info p {
     margin: 5px 0;
     font-size: 16px;
-}
-
-.user-info p#userNameDisplay {
     color: gold;
-    font-weight: bold;
-    text-align: right;
+    text-shadow: 0 0 3px black;
 }
 
-.user-info p#userSaldoDisplay {
-    color: #00ff00;
+.user-info button {
+    margin-top: 8px;
+    background-color: gold;
+    color: black;
     font-weight: bold;
-    text-align: right;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.user-info button:hover {
+    background-color: #ffcc00;
+    box-shadow: 0 0 10px gold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cabecera {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .user-info {
+        align-items: center;
+        text-align: center;
+    }
 }

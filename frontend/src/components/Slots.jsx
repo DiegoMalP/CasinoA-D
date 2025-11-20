@@ -9,18 +9,29 @@ import "../styles/Casino.css";
 export default function TragaPremios({ user, setUser }) {
     const canvasRef = useRef(null);
     const [msg, setMsg] = useState("¡Haz click para jugar!");
+    const [girando, setGirando] = useState(false);
+
     const simbolos = [Cereza, Limon, Estrella, Diamante, Campana];
+    const premios = [50, 100, 200, 500, 1000];
 
     const imagenes = useRef([]);
-    const posiciones = useRef([0, 0, 0]);
-    const girando = useRef(false);
+    const animacionRef = useRef(null);
+    const tiemposInicioRef = useRef([]);
+    const resultadosRef = useRef([]);
+    const posicionesRef = useRef([0, 0, 0]);
 
-    // Premios asociados a cada símbolo
-    const premios = [50, 100, 200, 500, 1000];
+    // Configuración de animación
+    const config = {
+        duraciones: [2000, 2300, 2600], // Cada rodillo se detiene en momentos diferentes
+        velocidadInicial: 0.8,
+        velocidadFinal: 0.1
+    };
 
     // Cargar imágenes
     useEffect(() => {
         let cargadas = 0;
+        imagenes.current = [];
+
         simbolos.forEach(src => {
             const img = new Image();
             img.src = src;
@@ -30,6 +41,12 @@ export default function TragaPremios({ user, setUser }) {
             };
             imagenes.current.push(img);
         });
+
+        return () => {
+            if (animacionRef.current) {
+                cancelAnimationFrame(animacionRef.current);
+            }
+        };
     }, []);
 
     const dibujar = () => {
@@ -37,93 +54,116 @@ export default function TragaPremios({ user, setUser }) {
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const w = 100;
 
         for (let i = 0; i < 3; i++) {
-            const index = Math.floor(posiciones.current[i]) % imagenes.current.length;
-            const img = imagenes.current[index];
-            if (img.complete && img.naturalWidth !== 0) {
-                ctx.drawImage(img, i * w + 5, 25, 90, 90);
-            } else {
-                ctx.fillStyle = "red";
-                ctx.fillRect(i * w + 5, 25, 90, 90);
-            }
+            const idx = Math.floor(posicionesRef.current[i]) % imagenes.current.length;
+            const img = imagenes.current[idx];
+            if (img) ctx.drawImage(img, i * 100 + 5, 25, 90, 90);
         }
-    };
-
-    const animar = () => {
-        if (!girando.current) return;
-        for (let i = 0; i < 3; i++) {
-            posiciones.current[i] += 0.2 + i * 0.05;
-        }
-        dibujar();
-        requestAnimationFrame(animar);
     };
 
     const girar = () => {
-        if (girando.current) return;
-        girando.current = true;
-        const duraciones = [1000, 1300, 1600];
-        animar();
+        if (girando) return;
 
-        duraciones.forEach((d, i) => {
-            setTimeout(() => {
-                posiciones.current[i] = Math.floor(Math.random() * imagenes.current.length);
-                dibujar();
-                if (i === 2) {
-                    girando.current = false;
-                    evaluar();
-                }
-            }, d);
-        });
-    };
-
-    const evaluar = () => {
-        const s1 = Math.floor(posiciones.current[0]) % imagenes.current.length;
-        const s2 = Math.floor(posiciones.current[1]) % imagenes.current.length;
-        const s3 = Math.floor(posiciones.current[2]) % imagenes.current.length;
-
-        let premio = 0;
-
-        if (s1 === s2 && s2 === s3) {
-            setMsg("🎉 ¡Triple!");
-            premio = premios[s1];
-        } else if (s1 === s2 || s2 === s3 || s1 === s3) {
-            setMsg("✨ ¡Doble!");
-            // Premio menor del símbolo repetido
-            premio = premios[s1] / 2;
-        } else {
-            setMsg("😢 Sin premio.");
+        const costo = 10;
+        if (user.saldo < costo) {
+            setMsg("❌ No tienes saldo suficiente");
+            return;
         }
 
-        if (premio > 0) actualizarSaldo(premio);
+        // Restar saldo
+        const saldoDespues = user.saldo - costo;
+        setUser({ ...user, saldo: saldoDespues });
+        localStorage.setItem("userSaldo", saldoDespues);
+
+        // Iniciar juego
+        setGirando(true);
+        setMsg("🎰 Girando...");
+
+        // Generar resultados aleatorios
+        resultadosRef.current = [
+            Math.floor(Math.random() * simbolos.length),
+            Math.floor(Math.random() * simbolos.length),
+            Math.floor(Math.random() * simbolos.length)
+        ];
+
+        // Reiniciar posiciones y tiempos
+        posicionesRef.current = [0, 0, 0];
+        tiemposInicioRef.current = [performance.now(), performance.now(), performance.now()];
+
+        // Iniciar animación
+        animacionRef.current = requestAnimationFrame(animar);
     };
 
-    const actualizarSaldo = async (cantidad) => {
-        const nuevoSaldo = user.saldo + cantidad;
+    const animar = (tiempoActual) => {
+        let todosDetenidos = true;
 
-        try {
-            const res = await fetch("https://casinoa-d.onrender.com/updateSaldo", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userName: user.name, saldo: nuevoSaldo }),
-            });
+        for (let i = 0; i < 3; i++) {
+            const tiempoTranscurrido = tiempoActual - tiemposInicioRef.current[i];
+            const duracionRodillo = config.duraciones[i];
 
-            const data = await res.json();
+            if (tiempoTranscurrido < duracionRodillo) {
+                // Rodillo aún girando
+                todosDetenidos = false;
 
-            if (data.success) {
-                // Actualizamos estado y localStorage solo si el backend fue exitoso
-                setUser({ ...user, saldo: data.saldo });
-                localStorage.setItem("userSaldo", data.saldo);
-                console.log("Saldo actualizado correctamente:", data.saldo);
-                setMsg(prev => `${prev} 🎉 Ganaste ${cantidad} puntos!`);
+                // Calcular velocidad (más lento progresivamente)
+                const progreso = tiempoTranscurrido / duracionRodillo;
+                const velocidad = config.velocidadInicial -
+                    (config.velocidadInicial - config.velocidadFinal) * progreso;
+
+                posicionesRef.current[i] += velocidad;
             } else {
-                console.error("Error al actualizar saldo:", data.message);
-                setMsg("❌ No se pudo actualizar el saldo.");
+                // Rodillo detenido - posicionar en resultado final
+                posicionesRef.current[i] = resultadosRef.current[i];
             }
-        } catch (err) {
-            console.error("Error de conexión con el backend:", err);
-            setMsg("❌ Error de conexión con el servidor.");
+        }
+
+        dibujar();
+
+        if (!todosDetenidos) {
+            animacionRef.current = requestAnimationFrame(animar);
+        } else {
+            finalizarJuego();
+        }
+    };
+
+    const finalizarJuego = async () => {
+        setGirando(false);
+
+        const [a, b, c] = resultadosRef.current;
+        let premio = 0;
+        let mensaje = "Giraste y gastaste 10 puntos.";
+
+        // TRIPLE
+        if (a === b && b === c) {
+            premio = premios[a];
+            mensaje += ` 🎉 ¡Triple! Ganaste ${premio} puntos!`;
+        }
+        // DOBLE
+        else if (a === b || b === c || a === c) {
+            let simbolo = a === b ? a : b === c ? b : a;
+            premio = premios[simbolo] / 2;
+            mensaje += ` ✨ ¡Doble! Ganaste ${premio} puntos!`;
+        } else {
+            mensaje += " 😢 Sin premio.";
+        }
+
+        setMsg(mensaje);
+
+        if (premio > 0) {
+            const nuevoSaldo = user.saldo - 10 + premio;
+            setUser({ ...user, saldo: nuevoSaldo });
+            localStorage.setItem("userSaldo", nuevoSaldo);
+
+            try {
+                await fetch("https://casinoa-d.onrender.com/updateSaldo", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userName: user.name, saldo: nuevoSaldo }),
+                });
+            } catch {
+                setMsg("❌ Error de conexión");
+            }
         }
     };
 
@@ -134,7 +174,7 @@ export default function TragaPremios({ user, setUser }) {
                 <ul>
                     <li>🍒🍒🍒 <span>+50</span></li>
                     <li>🍋🍋🍋 <span>+100</span></li>
-                    <li>⭐️⭐️⭐️ <span>+200</span></li>
+                    <li>⭐️⭐️⭐ <span>+200</span></li>
                     <li>💎💎💎 <span>+500</span></li>
                     <li>🔔🔔🔔 <span>+1000</span></li>
                 </ul>
@@ -142,10 +182,12 @@ export default function TragaPremios({ user, setUser }) {
 
             <div className="tragaperras">
                 <h1>🎰 Tragaperras</h1>
-                <canvas ref={canvasRef} width={300} height={150}></canvas>
+                <canvas ref={canvasRef} width={300} height={150} className="slot"></canvas>
                 <br />
-                <button onClick={girar}>Girar</button>
-                <p>{msg}</p>
+                <button onClick={girar} disabled={girando}>
+                    {girando ? "Girando..." : "Girar"}
+                </button>
+                <p className="PremioMensaje">{msg}</p>
             </div>
         </div>
     );

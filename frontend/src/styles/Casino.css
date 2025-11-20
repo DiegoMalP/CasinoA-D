@@ -3,26 +3,32 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    min-height: 100%;
+    width: 100%;
 }
 
 .contenedor-traga {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    align-items: stretch;
+    align-items: flex-start;
+    /* mejor que stretch */
     gap: 20px;
     flex-wrap: wrap;
     padding: 20px;
     background-color: #111;
     border-radius: 20px;
-    box-shadow: 0 0 3px gold;
+    box-shadow: 0 0 4px gold;
     margin: 20px;
+    overflow-y: auto;
+    /* esto permite scroll si es necesario */
 }
+
 
 .tragaperras {
     background-color: #222;
     border-radius: 15px;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     color: white;
 }
@@ -32,7 +38,7 @@
     margin-bottom: 15px;
 }
 
-#slot {
+.slot {
     background-color: #999;
     border: 2px solid #666;
     border-radius: 10px;
@@ -63,9 +69,8 @@
 .premios {
     background-color: #222;
     border-radius: 15px;
-    padding: 10px;
+    padding: 18px;
     color: white;
-    width: 300px;
 }
 
 .premios h2 {
@@ -93,10 +98,18 @@
     font-weight: bold;
 }
 
-.resaltado {
-    background-color: gold;
-    color: black;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: 0.3s;
+.PremioMensaje {
+    color: gold;
+    display: flex;
+    flex-direction: column;
 }
+
+@media (max-width: 767px) {
+    .premios {
+        width: 90%;
+    }
+
+    .tragaperras .slot {
+        width: 90%;
+    }
+}   
