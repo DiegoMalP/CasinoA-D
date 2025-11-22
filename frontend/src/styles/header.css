@@ -2,72 +2,85 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #111;
-    padding: 10px 30px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+    padding: 15px 40px;
+    box-shadow: 0 4px 30px rgba(255, 215, 0, 0.4);
+    border-bottom: 2px solid gold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .casino img {
-    width: 80px;
+    width: 90px;
     height: auto;
     border: 2px solid gold;
-    border-radius: 8px;
-    transition: transform 0.3s;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.casino img:hover {
-    transform: scale(1.1);
+.casino img {
+    transform: scale(1.15) rotate(-2deg);
+    box-shadow: 0 0 15px gold;
 }
 
 .user-info {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    background-color: #222;
+    background: #222222cc;
+    /* fondo semi-transparente */
     border: 2px solid gold;
-    border-radius: 15px;
-    padding: 15px 20px;
-    min-width: 200px;
-    box-shadow: 0 0 10px gold;
-    font-family: Arial, sans-serif;
-    text-align: left;
+    border-radius: 20px;
+    padding: 15px 25px;
+    min-width: 220px;
+    box-shadow: 0 0 15px gold;
+    text-align: right;
+    transition: transform 0.3s;
+}
+
+.user-info {
+    transform: translateY(-3px);
 }
 
 .user-info p {
     margin: 5px 0;
     font-size: 16px;
     color: gold;
-    text-shadow: 0 0 3px black;
+    text-shadow: 0 0 5px black;
 }
 
 .user-info button {
-    margin-top: 8px;
-    background-color: gold;
-    color: black;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #ffd700, #ffcc00);
+    color: #111;
     font-weight: bold;
     border: none;
-    border-radius: 8px;
-    padding: 8px 15px;
+    border-radius: 12px;
+    padding: 10px 20px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s;
 }
 
-.user-info button:hover {
-    background-color: #ffcc00;
-    box-shadow: 0 0 10px gold;
+.user-info button {
+    background: linear-gradient(135deg, #fff176, #ffeb3b);
+    box-shadow: 0 0 15px gold;
+    transform: scale(1.05);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .cabecera {
-        display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 15px;
     }
 
     .user-info {
         align-items: center;
         text-align: center;
     }
+
+    .user-info button {
+        padding: 8px 15px;
+    }
+
 }

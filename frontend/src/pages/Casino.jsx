@@ -2,6 +2,9 @@ import Slots from "../components/Slots.jsx";
 import CarreraCaballos from "../components/CarreraCaballos.jsx";
 import Header from "../components/Header.jsx";
 import MostPlayed from "../components/MostPlayed.jsx";
+import Footer from "../components/Footer.jsx";
+import YouTubeAudio from "../components/youtubeAudio.jsx";
+import Chatbot from "../components/chatbot.jsx";
 import "../styles/Casino.css";
 
 export default function Casino({ user, setUser, logout }) {
@@ -11,7 +14,9 @@ export default function Casino({ user, setUser, logout }) {
             <MostPlayed />
             <Slots user={user} setUser={setUser} />
             <CarreraCaballos user={user} setUser={setUser} />
-            <footer>adiosa</footer>
+            <Footer />
+            <YouTubeAudio />
+            <Chatbot />
         </main>
     );
 }
