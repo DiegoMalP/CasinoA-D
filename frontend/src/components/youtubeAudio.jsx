@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import MusicFile from '../musica/TropicalContact.mp3';
+import "../styles/youtubeAudio.css"
 
 export default function BackgroundMusic() {
     const audioRef = useRef(null);
@@ -21,19 +22,7 @@ export default function BackgroundMusic() {
 
             <button
                 onClick={toggleAudio}
-                style={{
-                    position: 'fixed',
-                    bottom: '20px',
-                    left: '20px',  // Cambiado de right a left
-                    padding: '15px',
-                    borderRadius: '50%',
-                    border: 'none',
-                    background: 'gold',
-                    cursor: 'pointer',
-                    boxShadow: '0 0 15px gold',
-                    fontSize: '20px',
-                    zIndex: 999,
-                }}
+                className='audio'
                 title="Reproducir / Pausar música"
             >
                 {isPlaying ? '🔇' : '🎵'}

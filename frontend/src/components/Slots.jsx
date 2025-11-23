@@ -4,7 +4,7 @@ import Limon from "../Imagenes/slots/limon.png";
 import Estrella from "../Imagenes/slots/estrella.png";
 import Diamante from "../Imagenes/slots/diamante.png";
 import Campana from "../Imagenes/slots/campana.png";
-import "../styles/Casino.css";
+import "../styles/Slot.css";
 
 export default function TragaPremios({ user, setUser }) {
     const canvasRef = useRef(null);
