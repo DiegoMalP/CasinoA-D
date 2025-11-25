@@ -1,0 +1,96 @@
+.roulette-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+  background-color: #111;
+  border-radius: 20px;
+  box-shadow: 0 0 15px gold;
+  margin: 20px;
+  overflow-y: auto;
+}
+
+.title {
+  color: #ffd500;
+  font-size: 26px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 6px rgba(255, 213, 0, 0.3);
+}
+
+.wheel-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.pointer {
+  position: absolute;
+  top: -10px;
+  color: #ffd500;
+  font-size: 22px;
+  z-index: 10;
+}
+
+.wheel {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  overflow: visible;
+  background: #111;
+  border: 3px solid #333;
+  box-shadow: 0px 0px 15px rgba(255, 255, 0, 0.2);
+}
+
+.wheel-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+.controls label {
+  display: block;
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
+.controls input {
+  width: 120px;
+  padding: 6px;
+  border-radius: 6px;
+  background: #222;
+  color: white;
+  border: 1px solid #555;
+}
+
+.btn-spin {
+  margin-top: 10px;
+  background: #ffd500;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-spin:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.result {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.saldo {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #8ecaff;
+}

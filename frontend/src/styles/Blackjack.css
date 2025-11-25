@@ -1,0 +1,64 @@
+.blackjack-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+  background-color: #111;
+  border-radius: 20px;
+  box-shadow: 0 0 15px gold;
+  margin: 20px;
+  overflow-y: auto;
+}
+
+.title {
+  color: #ffd500;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.saldo {
+  font-size: 16px;
+  color: #8ecaff;
+  margin-bottom: 10px;
+}
+
+.mano {
+  margin: 15px 0;
+}
+
+.cartas {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.carta {
+  background: #222;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 20px;
+  min-width: 45px;
+}
+
+.carta.jugador {
+  border: 2px solid #ffd500;
+}
+
+.controles button,
+.iniciar {
+  background: #ffd500;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.mensaje {
+  margin-top: 15px;
+  font-size: 20px;
+}
