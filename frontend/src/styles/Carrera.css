@@ -1,22 +1,24 @@
+
 .contenedor-carrera {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* mejor que stretch */
     gap: 20px;
-    flex-wrap: wrap;
     padding: 20px;
     background-color: #111;
     border-radius: 20px;
     box-shadow: 0 0 15px gold;
-    margin: 20px;
-    overflow-y: auto;
+    margin: 20px auto;
+    width: 95%;
+    box-sizing: border-box;
 }
 
 .contenedor-carrera h1 {
-    font: 30px;
+    font-size: 30px;
     color: gold;
+    text-align: center;
 }
 
 .carreraCanvas {
@@ -40,28 +42,7 @@
     border-radius: 5px;
 }
 
-button {
-    background-color: white;
-    color: black;
-    cursor: pointer;
-    border: 0px solid;
-    border-radius: 10px;
-}
-
-input {
-    border-radius: 10px;
-}
-
-button:hover {
-    background-color: gold;
-    color: black;
-    cursor: pointer;
-}
-
-input:focus {
-    outline: 2px solid gold;
-}
-
+/* Labels y inputs */
 .apuesta label {
     text-align: center;
     color: gold;
@@ -73,13 +54,31 @@ input:focus {
 button {
     margin-bottom: 10px;
     padding: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
 }
 
+button {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+}
+
+button:hover {
+    background-color: gold;
+    color: black;
+}
+
+/* Mensaje de estado */
 .mensaje {
     font-size: 20px;
     color: gold;
+    text-align: center;
 }
 
+/* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 768px) {
     .contenedor-carrera {
         padding: 15px;
@@ -98,7 +97,6 @@ button {
     .apuesta input,
     .apuesta button {
         width: 100%;
-        box-sizing: border-box;
     }
 
     .carreraCanvas {

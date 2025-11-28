@@ -8,11 +8,12 @@ import "../styles/Slot.css";
 
 export default function TragaPremios({ user, setUser }) {
     const canvasRef = useRef(null);
-    const [msg, setMsg] = useState("¡Haz click para jugar!");
+
+    const [msg, setMsg] = useState("¡Haz una apuesta para jugar!");
     const [girando, setGirando] = useState(false);
+    const [apuesta, setApuesta] = useState("");
 
     const simbolos = [Cereza, Limon, Estrella, Diamante, Campana];
-    const premios = [50, 100, 200, 500, 1000];
 
     const imagenes = useRef([]);
     const animacionRef = useRef(null);
@@ -20,9 +21,8 @@ export default function TragaPremios({ user, setUser }) {
     const resultadosRef = useRef([]);
     const posicionesRef = useRef([0, 0, 0]);
 
-    // Configuración de animación
     const config = {
-        duraciones: [2000, 2300, 2600], // Cada rodillo se detiene en momentos diferentes
+        duraciones: [2000, 2300, 2600],
         velocidadInicial: 0.8,
         velocidadFinal: 0.1
     };
@@ -42,17 +42,14 @@ export default function TragaPremios({ user, setUser }) {
             imagenes.current.push(img);
         });
 
-        return () => {
-            if (animacionRef.current) {
-                cancelAnimationFrame(animacionRef.current);
-            }
-        };
+        return () => cancelAnimationFrame(animacionRef.current);
     }, []);
 
     const dibujar = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         for (let i = 0; i < 3; i++) {
@@ -63,64 +60,65 @@ export default function TragaPremios({ user, setUser }) {
     };
 
     const girar = () => {
+        const monto = Number(apuesta);
+
         if (girando) return;
 
-        const costo = 10;
-        if (user.saldo < costo) {
-            setMsg("❌ No tienes saldo suficiente");
+        if (!monto || monto <= 0) {
+            setMsg("❌ Debes apostar un número válido.");
             return;
         }
 
-        // Restar saldo
-        const saldoDespues = user.saldo - costo;
-        setUser({ ...user, saldo: saldoDespues });
-        localStorage.setItem("userSaldo", saldoDespues);
+        if (user.saldo < monto) {
+            setMsg("❌ No tienes saldo suficiente.");
+            return;
+        }
 
-        // Iniciar juego
+        // Restar apuesta
+        const nuevoSaldo = user.saldo - monto;
+        setUser({ ...user, saldo: nuevoSaldo });
+
+        localStorage.setItem("userSaldo", nuevoSaldo);
+
+        // Iniciar giro
         setGirando(true);
         setMsg("🎰 Girando...");
 
-        // Generar resultados aleatorios
         resultadosRef.current = [
             Math.floor(Math.random() * simbolos.length),
             Math.floor(Math.random() * simbolos.length),
             Math.floor(Math.random() * simbolos.length)
         ];
 
-        // Reiniciar posiciones y tiempos
         posicionesRef.current = [0, 0, 0];
         tiemposInicioRef.current = [performance.now(), performance.now(), performance.now()];
 
-        // Iniciar animación
         animacionRef.current = requestAnimationFrame(animar);
     };
 
     const animar = (tiempoActual) => {
-        let todosDetenidos = true;
+        let terminados = true;
 
         for (let i = 0; i < 3; i++) {
-            const tiempoTranscurrido = tiempoActual - tiemposInicioRef.current[i];
-            const duracionRodillo = config.duraciones[i];
+            const elapsed = tiempoActual - tiemposInicioRef.current[i];
+            const duracion = config.duraciones[i];
 
-            if (tiempoTranscurrido < duracionRodillo) {
-                // Rodillo aún girando
-                todosDetenidos = false;
+            if (elapsed < duracion) {
+                terminados = false;
 
-                // Calcular velocidad (más lento progresivamente)
-                const progreso = tiempoTranscurrido / duracionRodillo;
+                const progreso = elapsed / duracion;
                 const velocidad = config.velocidadInicial -
                     (config.velocidadInicial - config.velocidadFinal) * progreso;
 
                 posicionesRef.current[i] += velocidad;
             } else {
-                // Rodillo detenido - posicionar en resultado final
                 posicionesRef.current[i] = resultadosRef.current[i];
             }
         }
 
         dibujar();
 
-        if (!todosDetenidos) {
+        if (!terminados) {
             animacionRef.current = requestAnimationFrame(animar);
         } else {
             finalizarJuego();
@@ -130,63 +128,65 @@ export default function TragaPremios({ user, setUser }) {
     const finalizarJuego = async () => {
         setGirando(false);
 
+        const monto = Number(apuesta);
         const [a, b, c] = resultadosRef.current;
-        let premio = 0;
-        let mensaje = "Giraste y gastaste 10 puntos.";
 
-        // TRIPLE
+        let multiplicador = 0;
+        let mensaje = "";
+
         if (a === b && b === c) {
-            premio = premios[a];
-            mensaje += ` 🎉 ¡Triple! Ganaste ${premio} puntos!`;
+            multiplicador = 3; // triple
+            mensaje = `🎉 ¡TRIPLE! Ganaste x3 tu apuesta (${monto * 3} puntos)`;
         }
-        // DOBLE
         else if (a === b || b === c || a === c) {
-            let simbolo = a === b ? a : b === c ? b : a;
-            premio = premios[simbolo] / 2;
-            mensaje += ` ✨ ¡Doble! Ganaste ${premio} puntos!`;
+            multiplicador = 2; // doble
+            mensaje = `✨ ¡DOBLE! Ganaste x2 tu apuesta (${monto * 2} puntos)`;
         } else {
-            mensaje += " 😢 Sin premio.";
+            multiplicador = 0;
+            mensaje = `😢 Sin premio. Perdiste ${monto} puntos.`;
         }
 
+        const premio = monto * multiplicador;
+        const saldoFinal = user.saldo + premio;
+
+        setUser({ ...user, saldo: saldoFinal });
         setMsg(mensaje);
 
-        if (premio > 0) {
-            const nuevoSaldo = user.saldo - 10 + premio;
-            setUser({ ...user, saldo: nuevoSaldo });
-            localStorage.setItem("userSaldo", nuevoSaldo);
+        localStorage.setItem("userSaldo", saldoFinal);
 
-            try {
-                await fetch("https://casinoa-d.onrender.com/updateSaldo", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ userName: user.name, saldo: nuevoSaldo }),
-                });
-            } catch {
-                setMsg("❌ Error de conexión");
-            }
+        try {
+            await fetch("https://casinoa-d.onrender.com/updateSaldo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userName: user.name, saldo: saldoFinal }),
+            });
+        } catch {
+            setMsg("⚠️ Error al conectar con servidor. Saldo guardado localmente.");
         }
     };
 
     return (
         <div className="contenedor-traga">
-            <div className="premios">
-                <h2>💎 Premios</h2>
-                <ul>
-                    <li>🍒🍒🍒 <span>+50</span></li>
-                    <li>🍋🍋🍋 <span>+100</span></li>
-                    <li>⭐️⭐️⭐ <span>+200</span></li>
-                    <li>💎💎💎 <span>+500</span></li>
-                    <li>🔔🔔🔔 <span>+1000</span></li>
-                </ul>
-            </div>
 
             <div className="tragaperras">
                 <h1>🎰 Tragaperras</h1>
+
                 <canvas ref={canvasRef} width={300} height={150} className="slot"></canvas>
-                <br />
+
                 <button onClick={girar} disabled={girando}>
                     {girando ? "Girando..." : "Girar"}
                 </button>
+
+                <label className="Apuesta-Ms">Apuesta:</label>
+                <input
+                    type="number"
+                    min="1"
+                    className="Apuesta"
+                    max={user.saldo}
+                    value={apuesta}
+                    onChange={(e) => setApuesta(e.target.value)}
+                />
+
                 <p className="PremioMensaje">{msg}</p>
             </div>
         </div>

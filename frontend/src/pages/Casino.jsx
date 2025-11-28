@@ -15,13 +15,27 @@ export default function Casino({ user, setUser, logout }) {
         <main className="cuerpo">
             <Header user={user} logout={logout} />
             <MostPlayed />
-            <Slots user={user} setUser={setUser} />
-            <Roulette user={user} setUser={setUser} />
-            <Blackjack user={user} setUser={setUser} />
-            <CarreraCaballos user={user} setUser={setUser} />
+
+            <section id="slots">
+                <Slots user={user} setUser={setUser} />
+            </section>
+
+            <section id="roulette">
+                <Roulette user={user} setUser={setUser} />
+            </section>
+
+            <section id="blackjack">
+                <Blackjack user={user} setUser={setUser} />
+            </section>
+
+            <section id="caballos">
+                <CarreraCaballos user={user} setUser={setUser} />
+            </section>
+
             <Footer />
             <YouTubeAudio />
-            <Chatbot />
+            <Chatbot user={user} setUser={setUser} />
         </main>
+
     );
 }

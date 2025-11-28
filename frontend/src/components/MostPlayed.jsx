@@ -7,10 +7,11 @@ import '../styles/mostplayed.css'
 export default function MostPlayed() {
     return (
         <div className="Most-played">
-            <a href="#"><img src={Slot} id="slots" alt="Slots" /></a>
-            <a href="#"><img src={Poker} id="poker" alt="Poker" /></a>
-            <a href="#"><img src={Roulette} id="ruleta" alt="Ruleta" /></a>
-            <a href="#"><img src={Horses} id="caballos" alt="Caballos" /></a>
+            <a href="#slots"><img src={Slot} alt="Slots" className="game-icon" /></a>
+            <a href="#blackjack"><img src={Poker} alt="Poker" className="game-icon" /></a>
+            <a href="#roulette"><img src={Roulette} alt="Ruleta" className="game-icon" /></a>
+            <a href="#caballos"><img src={Horses} alt="Caballos" className="game-icon" /></a>
         </div>
+
     );
 }
