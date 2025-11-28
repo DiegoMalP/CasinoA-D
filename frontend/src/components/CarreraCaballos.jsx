@@ -78,10 +78,7 @@ export default function CarreraCaballos({ user, setUser }) {
             return;
         }
 
-        // Restar la apuesta
-        const saldoDespues = user.saldo - monto;
-        setUser({ ...user, saldo: saldoDespues });
-        localStorage.setItem("userSaldo", saldoDespues);
+        // No restamos el saldo aquí, lo haremos al finalizar la carrera
 
         posicionesRef.current = [0, 0, 0, 0];
         velocidadesRef.current = Array(4).fill(0).map(() => Math.random() * 1.5 + 2);
@@ -114,17 +111,18 @@ export default function CarreraCaballos({ user, setUser }) {
             .sort((a, b) => b.dist - a.dist);
 
         const ganador = orden[0].idx + 1;
-
         const monto = Number(montoApuesta);
-        let premioFinal = 0;
+        let saldoFinal = user.saldo;
+
         if (apuesta === ganador) {
-            premioFinal = monto * 2;
-            setMsg(`🏆 Ganó el caballo ${ganador}! ¡Ganaste ${premioFinal} puntos!`);
+            saldoFinal += monto * 2;
+            setMsg(`🏆 Ganó el caballo ${ganador}! ¡Ganaste ${monto * 2} puntos! Saldo actual: ${saldoFinal}`);
         } else {
-            setMsg(`🏆 Ganó el caballo ${ganador}! 😢 Perdiste tu apuesta de ${monto} puntos.`);
+            saldoFinal -= monto;
+            setMsg(`🏆 Ganó el caballo ${ganador}! 😢 Perdiste ${monto} puntos. Saldo actual: ${saldoFinal}`);
         }
 
-        const saldoFinal = (user?.saldo ?? 0) + premioFinal;
+        // Actualizamos el saldo
         setUser({ ...user, saldo: saldoFinal });
         localStorage.setItem("userSaldo", saldoFinal);
 
@@ -138,9 +136,13 @@ export default function CarreraCaballos({ user, setUser }) {
             console.log("Error al guardar saldo");
         }
 
-        // Limpiar input de apuesta
+
         setMontoApuesta("");
         setApuesta(null);
+
+
+        posicionesRef.current = [0, 0, 0, 0];
+        dibujar();
     };
 
     return (
