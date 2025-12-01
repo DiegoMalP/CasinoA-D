@@ -12,13 +12,13 @@ import Roulette from "../components/Roulette.jsx"
 import "../styles/Casino.css";
 
 export default function Casino({ user, setUser, logout }) {
-    const [selectedGame, setSelectedGame] = useState(null); // Estado para controlar el juego
+    // Inicializamos con "slots" para que se muestre al cargar
+    const [selectedGame, setSelectedGame] = useState("slots"); 
 
     return (
         <main className="cuerpo">
             <Header user={user} logout={logout} />
-
-            {/* Pasamos la función setSelectedGame a MostPlayed */}
+            
             <MostPlayed setSelectedGame={setSelectedGame} />
 
             <section>

@@ -22,3 +22,4 @@ export default function MostPlayed({ setSelectedGame }) {
         </div>
     );
 }
+
