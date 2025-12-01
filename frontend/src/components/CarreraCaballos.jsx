@@ -10,42 +10,42 @@ export default function CarreraCaballos({ user, setUser }) {
     const [msg, setMsg] = useState("🏇 Haz click en correr para iniciar");
     const [corriendo, setCorriendo] = useState(false);
 
-    const [apuesta, setApuesta] = useState(null); // Caballo elegido
-    const [montoApuesta, setMontoApuesta] = useState(""); // Input vacío
+    const [apuesta, setApuesta] = useState(null);
+    const [montoApuesta, setMontoApuesta] = useState("");
 
-    const imagenes = useRef({ caballos: [] });
-    const posicionesRef = useRef([0, 0, 0, 0]);
-    const velocidadesRef = useRef([0, 0, 0, 0]);
+    const imagenes = useRef([]);
+    const posiciones = useRef([0, 0, 0, 0]);
+    const velocidades = useRef([0, 0, 0, 0]);
+
     const meta = 600;
     const animacionRef = useRef(null);
+    const frameRef = useRef(0);
 
-    const premios = [120, 80, 60, 40];
-
-    // ---- CARGA DE IMÁGENES ----
+    // CARGA IMAGENES
     useEffect(() => {
-        const cab1 = new Image();
-        const cab2 = new Image();
-        const cab3 = new Image();
-        const cab4 = new Image();
-        cab1.src = Caballo1;
-        cab2.src = Caballo2;
-        cab3.src = Caballo3;
-        cab4.src = Caballo4;
+        const imgs = [Caballo1, Caballo2, Caballo3, Caballo4].map((src) => {
+            const img = new Image();
+            img.src = src;
+            return img;
+        });
 
-        imagenes.current = { caballos: [cab1, cab2, cab3, cab4] };
+        imagenes.current = imgs;
 
-        cab1.onload = () => dibujar();
+        imgs[0].onload = () => dibujar();
         return () => cancelAnimationFrame(animacionRef.current);
     }, []);
 
+    // DIBUJAR CANVAS
     const dibujar = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
+
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.strokeStyle = "#81c784";
         ctx.lineWidth = 2;
+
         for (let i = 1; i <= 4; i++) {
             ctx.beginPath();
             ctx.moveTo(0, i * 70 - 10);
@@ -53,35 +53,41 @@ export default function CarreraCaballos({ user, setUser }) {
             ctx.stroke();
         }
 
-        imagenes.current.caballos.forEach((caballo, i) => {
-            ctx.drawImage(caballo, posicionesRef.current[i], 20 + i * 70, 80, 80);
+        // animación de galope
+        frameRef.current++;
+
+        imagenes.current.forEach((caballo, i) => {
+            const galope = Math.sin(frameRef.current * 0.25 + i) * 6;
+
+            ctx.drawImage(
+                caballo,
+                posiciones.current[i],
+                20 + i * 70 + galope,
+                80,
+                80
+            );
         });
     };
 
-
+    // INICIAR
     const iniciar = () => {
         if (corriendo) return;
 
-        if (!user || typeof user.saldo !== "number") {
-            setMsg("❌ Usuario no definido");
-            return;
-        }
-
         const monto = Number(montoApuesta);
-        if (!apuesta || !monto || monto <= 0) {
-            setMsg("❌ Debes elegir un caballo y un monto válido");
-            return;
-        }
 
-        if (user.saldo < monto) {
-            setMsg("❌ No tienes saldo suficiente para esa apuesta");
-            return;
-        }
+        if (!user || typeof user.saldo !== "number")
+            return setMsg("❌ Usuario no definido");
 
-        // No restamos el saldo aquí, lo haremos al finalizar la carrera
+        if (!apuesta || monto <= 0)
+            return setMsg("❌ Debes elegir un caballo y un monto válido");
 
-        posicionesRef.current = [0, 0, 0, 0];
-        velocidadesRef.current = Array(4).fill(0).map(() => Math.random() * 1.5 + 2);
+        if (monto > user.saldo)
+            return setMsg("❌ No tienes saldo suficiente");
+
+        posiciones.current = [0, 0, 0, 0];
+        velocidades.current = Array(4)
+            .fill(0)
+            .map(() => Math.random() * 0.8 + 1.0); // velocidad más lenta
 
         setMsg(`🏁 ¡Están corriendo! Apuesta por el caballo ${apuesta}`);
         setCorriendo(true);
@@ -89,40 +95,43 @@ export default function CarreraCaballos({ user, setUser }) {
         animacionRef.current = requestAnimationFrame(animar);
     };
 
+    // ANIMAR
     const animar = () => {
-        let terminado = false;
+        let fin = false;
 
         for (let i = 0; i < 4; i++) {
-            posicionesRef.current[i] += velocidadesRef.current[i];
-            if (posicionesRef.current[i] >= meta) terminado = true;
+            posiciones.current[i] += velocidades.current[i];
+            posiciones.current[i] += Math.random() * 0.4; // movimiento suave
+
+            if (posiciones.current[i] >= meta) fin = true;
         }
 
         dibujar();
 
-        if (!terminado) animacionRef.current = requestAnimationFrame(animar);
+        if (!fin) animacionRef.current = requestAnimationFrame(animar);
         else finalizarCarrera();
     };
 
+    // FINALIZAR
     const finalizarCarrera = async () => {
         setCorriendo(false);
 
-        const orden = posicionesRef.current
-            .map((dist, idx) => ({ idx, dist }))
-            .sort((a, b) => b.dist - a.dist);
+        const ganador =
+            posiciones.current
+                .map((d, i) => ({ i, d }))
+                .sort((a, b) => b.d - a.d)[0].i + 1;
 
-        const ganador = orden[0].idx + 1;
         const monto = Number(montoApuesta);
         let saldoFinal = user.saldo;
 
         if (apuesta === ganador) {
             saldoFinal += monto * 2;
-            setMsg(`🏆 Ganó el caballo ${ganador}! ¡Ganaste ${monto * 2} puntos! Saldo actual: ${saldoFinal}`);
+            setMsg(`🏆 Ganó el caballo ${ganador}! ¡Ganaste ${monto * 2} puntos!`);
         } else {
             saldoFinal -= monto;
-            setMsg(`🏆 Ganó el caballo ${ganador}! 😢 Perdiste ${monto} puntos. Saldo actual: ${saldoFinal}`);
+            setMsg(`🏆 Ganó el caballo ${ganador}! 😢 Perdiste ${monto} puntos.`);
         }
 
-        // Actualizamos el saldo
         setUser({ ...user, saldo: saldoFinal });
         localStorage.setItem("userSaldo", saldoFinal);
 
@@ -130,18 +139,19 @@ export default function CarreraCaballos({ user, setUser }) {
             await fetch("https://casinoa-d.onrender.com/updateSaldo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userName: user?.name ?? "Invitado", saldo: saldoFinal }),
+                body: JSON.stringify({
+                    userName: user?.name ?? "Invitado",
+                    saldo: saldoFinal,
+                }),
             });
-        } catch {
+        } catch (e) {
             console.log("Error al guardar saldo");
         }
 
-
         setMontoApuesta("");
         setApuesta(null);
+        posiciones.current = [0, 0, 0, 0];
 
-
-        posicionesRef.current = [0, 0, 0, 0];
         dibujar();
     };
 
@@ -151,14 +161,14 @@ export default function CarreraCaballos({ user, setUser }) {
 
             <div className="apuesta">
                 <label>Elige tu caballo:</label>
-                {[1, 2, 3, 4].map(num => (
+                {[1, 2, 3, 4].map((n) => (
                     <button
-                        key={num}
-                        onClick={() => setApuesta(num)}
+                        key={n}
+                        onClick={() => setApuesta(n)}
                         disabled={corriendo}
-                        className={apuesta === num ? "seleccionado" : ""}
+                        className={apuesta === n ? "seleccionado" : ""}
                     >
-                        Caballo {num}
+                        Caballo {n}
                     </button>
                 ))}
 
@@ -168,7 +178,7 @@ export default function CarreraCaballos({ user, setUser }) {
                     min="1"
                     max={user?.saldo || 1}
                     value={montoApuesta}
-                    onChange={e => setMontoApuesta(e.target.value)}
+                    onChange={(e) => setMontoApuesta(e.target.value)}
                     disabled={corriendo}
                     placeholder="Ingresa tu apuesta"
                 />
@@ -185,5 +195,4 @@ export default function CarreraCaballos({ user, setUser }) {
             <p className="mensaje">{msg}</p>
         </div>
     );
-
 }

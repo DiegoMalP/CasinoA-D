@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Slots from "../components/Slots.jsx";
 import CarreraCaballos from "../components/CarreraCaballos.jsx";
 import Header from "../components/Header.jsx";
@@ -11,31 +12,25 @@ import Roulette from "../components/Roulette.jsx"
 import "../styles/Casino.css";
 
 export default function Casino({ user, setUser, logout }) {
+    const [selectedGame, setSelectedGame] = useState(null); // Estado para controlar el juego
+
     return (
         <main className="cuerpo">
             <Header user={user} logout={logout} />
-            <MostPlayed />
 
-            <section id="slots">
-                <Slots user={user} setUser={setUser} />
-            </section>
+            {/* Pasamos la función setSelectedGame a MostPlayed */}
+            <MostPlayed setSelectedGame={setSelectedGame} />
 
-            <section id="roulette">
-                <Roulette user={user} setUser={setUser} />
-            </section>
-
-            <section id="blackjack">
-                <Blackjack user={user} setUser={setUser} />
-            </section>
-
-            <section id="caballos">
-                <CarreraCaballos user={user} setUser={setUser} />
+            <section>
+                {selectedGame === "slots" && <Slots user={user} setUser={setUser} />}
+                {selectedGame === "roulette" && <Roulette user={user} setUser={setUser} />}
+                {selectedGame === "blackjack" && <Blackjack user={user} setUser={setUser} />}
+                {selectedGame === "caballos" && <CarreraCaballos user={user} setUser={setUser} />}
             </section>
 
             <Footer />
             <YouTubeAudio />
             <Chatbot user={user} setUser={setUser} />
         </main>
-
     );
 }
