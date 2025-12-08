@@ -3,9 +3,7 @@ import "../styles/Blackjack.css";
 
 function crearBaraja() {
   const palos = ["♠", "♥", "♦", "♣"];
-  const valores = [
-    "A","2","3","4","5","6","7","8","9","10","J","Q","K"
-  ];
+  const valores = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
   let baraja = [];
 
@@ -33,7 +31,6 @@ function calcularPuntuacion(mano) {
     if (carta.valor === "A") ases++;
   });
 
-  // Si pasamos de 21, convertimos Ases de 11 → 1
   while (total > 21 && ases > 0) {
     total -= 10;
     ases--;
@@ -48,9 +45,14 @@ export default function Blackjack({ user, setUser }) {
   const [dealer, setDealer] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [jugando, setJugando] = useState(false);
-  const apuesta = 50; // Fija o puedes poner input
+  const [apuesta, setApuesta] = useState(50);
 
   const iniciar = () => {
+    if (apuesta <= 0 || apuesta > user.saldo) {
+      setMensaje("Apuesta inválida.");
+      return;
+    }
+
     const nuevaBaraja = crearBaraja();
     const manoJugador = [nuevaBaraja.pop(), nuevaBaraja.pop()];
     const manoDealer = [nuevaBaraja.pop()];
@@ -114,8 +116,7 @@ export default function Blackjack({ user, setUser }) {
 
       <p className="saldo">Saldo actual: {user.saldo}€</p>
 
-      {/* Cartas Dealer */}
-      <div className="mano">
+      <div className="mano dealer">
         <h3>Crupier</h3>
         <div className="cartas">
           {dealer.map((c, i) => (
@@ -127,8 +128,7 @@ export default function Blackjack({ user, setUser }) {
         <p>Puntuación: {calcularPuntuacion(dealer)}</p>
       </div>
 
-      {/* Cartas Jugador */}
-      <div className="mano">
+      <div className="mano jugador">
         <h3>Jugador</h3>
         <div className="cartas">
           {jugador.map((c, i) => (
@@ -140,7 +140,24 @@ export default function Blackjack({ user, setUser }) {
         <p>Puntuación: {calcularPuntuacion(jugador)}</p>
       </div>
 
-      {/* Controles */}
+      {!jugando && (
+        <div className="apuesta-container">
+          <label>Apuesta: </label>
+          <input
+            type="number"
+            min="1"
+            className="Apuesta"
+            max={user.saldo}
+            value={apuesta === null ? "" : apuesta}
+            onChange={(e) => {
+              const value = e.target.value;
+              setApuesta(value === "" ? null : Number(value));
+            }}
+          />
+
+        </div>
+      )}
+
       {jugando ? (
         <div className="controles">
           <button onClick={pedirCarta}>Pedir Carta</button>

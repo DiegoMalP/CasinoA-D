@@ -1,21 +1,20 @@
 import React, { useState, useRef } from "react";
 import "../styles/Roulette.css";
 
-const NUMBERS = [
-  0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
-  19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36
-];
+// Ruleta del 0 al 31
+const NUMBERS = Array.from({ length: 32 }, (_, i) => i); // 0,1,...31
 
 function colorFor(n) {
-  if (n === 0) return "#1a7f3c"; 
-  return n % 2 === 0 ? "#d62828" : "#111";
+  if (n === 0) return "#1a7f3c"; // verde para 0
+  return n % 2 === 0 ? "#d62828" : "#111"; // par=rojo, impar=negro
 }
 
 export default function Roulette({ user, setUser }) {
 
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState(null);
-  const [bet, setBet] = useState(10);
+  const [betNumber, setBetNumber] = useState(0);          // número elegido para apostar
+  const [customBet, setCustomBet] = useState("");        // apuesta personalizada
 
   const wheelRef = useRef(null);
 
@@ -27,33 +26,43 @@ export default function Roulette({ user, setUser }) {
     const sectorAngle = 360 / totalNumbers;
     const extraRotations = 360 * 6;
 
+    // Ajuste: restamos la mitad del sector para alinear con el puntero
     const finalAngle =
-      extraRotations + (360 - randomIndex * sectorAngle) + (sectorAngle / 2);
+      extraRotations + (360 - randomIndex * sectorAngle) - (sectorAngle / 2);
 
     setSpinning(true);
 
-    wheelRef.current.style.transition = "5s cubic-bezier(.2,.8,.3,1)";
+    wheelRef.current.style.transition = "5s cubic-bezier(.25,.1,.25,1)";
     wheelRef.current.style.transform = `rotate(${finalAngle}deg)`;
 
     setTimeout(() => {
       setSpinning(false);
-      const finalNumber = NUMBERS[randomIndex];
+
+      const finalNumber = NUMBERS[randomIndex]; // ahora coincide con la ruleta
       setResult(finalNumber);
 
-      if (finalNumber === bet) {
-        setUser(prev => ({
-          ...prev,
-          saldo: prev.saldo + bet * 35
-        }));
+      // Lógica de apuesta
+      let betAmount = 0;
+
+      if (customBet !== "") {
+        const customNumber = Number(customBet);
+        betAmount = (!isNaN(customNumber) && customNumber === finalNumber) ? 35 : -10;
       } else {
-        setUser(prev => ({
-          ...prev,
-          saldo: prev.saldo - bet
-        }));
+        betAmount = (betNumber === finalNumber) ? 35 : -10;
       }
+
+      setUser(prev => ({
+        ...prev,
+        saldo: prev.saldo + betAmount
+      }));
+
+      // Reiniciar rotación para siguiente giro
+      wheelRef.current.style.transition = "none";
+      wheelRef.current.style.transform = `rotate(${finalAngle % 360}deg)`;
 
     }, 5100);
   };
+
 
   return (
     <div className="roulette-container">
@@ -65,10 +74,8 @@ export default function Roulette({ user, setUser }) {
         <div className="wheel" ref={wheelRef}>
           <svg viewBox="-100 -100 200 200" className="wheel-svg">
             {NUMBERS.map((n, i) => {
-              const start =
-                (i * Math.PI * 2) / NUMBERS.length - Math.PI / 2;
-              const end =
-                start + (Math.PI * 2) / NUMBERS.length;
+              const start = (i * Math.PI * 2) / NUMBERS.length - Math.PI / 2;
+              const end = start + (Math.PI * 2) / NUMBERS.length;
 
               const x1 = Math.cos(start) * 100;
               const y1 = Math.sin(start) * 100;
@@ -83,7 +90,6 @@ export default function Roulette({ user, setUser }) {
                     stroke="#222"
                     strokeWidth="0.6"
                   />
-
                   <text
                     x={Math.cos((start + end) / 2) * 60}
                     y={Math.sin((start + end) / 2) * 60 + 3}
@@ -103,13 +109,24 @@ export default function Roulette({ user, setUser }) {
 
       <div className="controls">
         <label>
-          Apuesta (0-36):
+          Número a apostar (0-31):
           <input
             type="number"
             min="0"
-            max="36"
-            value={bet}
-            onChange={(e) => setBet(Number(e.target.value))}
+            max="31"
+            value={betNumber}
+            onChange={(e) => setBetNumber(Number(e.target.value))}
+            disabled={customBet !== ""}
+          />
+        </label>
+
+        <label>
+          Apuesta personalizada:
+          <input
+            type="text"
+            value={customBet}
+            onChange={(e) => setCustomBet(e.target.value)}
+            placeholder="Pon tu número"
           />
         </label>
 

@@ -1,10 +1,9 @@
 .blackjack-container {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 30px;
   padding: 20px;
   background-color: #111;
   border-radius: 20px;
@@ -12,24 +11,58 @@
   margin: 20px auto;
   width: 95%;
   box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.title,
+.saldo {
+  width: 100%;
+  text-align: center;
 }
 
 .title {
   color: #ffd500;
   font-size: 28px;
-  margin-bottom: 10px;
-  text-align: center;
 }
 
 .saldo {
   font-size: 16px;
   color: #8ecaff;
-  margin-bottom: 10px;
+}
+
+.apuesta-container {
+  width: 100%;
   text-align: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 16px;
+}
+
+.apuesta-container input {
+  width: 150px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-left: 8px;
+  background-color: white;
+  color: black;
 }
 
 .mano {
-  margin: 15px 0;
+  padding: 10px;
+  border-radius: 12px;
+  width: 250px;
+}
+
+.mano.dealer {
+  text-align: center;
+  border: 2px solid #ff4444;
+}
+
+.mano.jugador {
+  text-align: center;
+  border: 2px solid #ffd500;
 }
 
 .cartas {
@@ -47,11 +80,26 @@
   min-width: 45px;
   text-align: center;
   color: #fff;
-  box-shadow: 0 0 5px rgba(255, 213, 0, 0.3);
+  box-shadow: 0 0 5px #ffd500;
 }
 
 .carta.jugador {
   border: 2px solid #ffd500;
+}
+
+/* ⭐ Corrección importante: controles centrados */
+.controles {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+/* SOLO iniciar tiene width 10% */
+.iniciar {
+  width: 10%;
+  text-align: center;
 }
 
 .controles button,
@@ -73,26 +121,27 @@
 }
 
 .mensaje {
-  margin-top: 15px;
+  width: 100%;
   font-size: 20px;
   text-align: center;
   color: #ffd500;
+  margin-top: 10px;
 }
 
-@media (max-width: 480px) {
-  .cartas {
-    gap: 5px;
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .blackjack-container {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .carta {
-    font-size: 18px;
-    padding: 10px;
-    min-width: 40px;
+  .mano {
+    width: 90%;
+    max-width: 350px;
   }
 
   .controles button,
   .iniciar {
     width: 100%;
-    box-sizing: border-box;
   }
 }

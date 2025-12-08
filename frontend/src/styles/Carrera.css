@@ -20,15 +20,18 @@
     text-align: center;
 }
 
-.carreraCanvas {
-    width: 100%;
-    max-width: 800px;
-    height: 320px;
-    border: 3px solid #654321;
+
+.caballo.seleccionado {
+    border: 3px solid gold;
     border-radius: 10px;
-    box-shadow: 0 0 5px gold;
-    background-color: #4caf50;
+    box-shadow: 0 0 15px gold;
 }
+
+.apuesta button.seleccionado {
+    border: 3px solid gold;
+    background-color: #ffee58;
+}
+
 
 .apuesta {
     background-color: #222;
@@ -41,7 +44,6 @@
     border-radius: 5px;
 }
 
-/* Labels y inputs */
 .apuesta label {
     text-align: center;
     color: gold;
@@ -70,7 +72,6 @@ button:hover {
     color: black;
 }
 
-/* Mensaje de estado */
 .mensaje {
     font-size: 20px;
     color: gold;
@@ -79,15 +80,14 @@ button:hover {
 
 .carreraCanvas {
     width: 100%;
-    max-width: 800px;
-    height: 320px;
+    max-width: 900px;
+    height: 400px;
     border: 3px solid #654321;
     border-radius: 10px;
     box-shadow: 0 0 5px gold;
-
-    /* Fondo sólido REAL sin franjas */
-    background: #4caf50 !important;
+    background-color: #4caf50;
 }
+
 
 
 @keyframes pistaMovimiento {
@@ -100,8 +100,6 @@ button:hover {
     }
 }
 
-
-/* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 768px) {
     .contenedor-carrera {
         padding: 15px;

@@ -1,12 +1,15 @@
 .cabecera {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
-    padding: 15px 40px;
-    box-shadow: 0 4px 30px rgba(255, 215, 0, 0.4);
+    padding: 10px 40px;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
     border-bottom: 2px solid gold;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    gap: 20px;
+    transition: background 0.3s, box-shadow 0.3s;   
 }
 
 .casino img {
@@ -14,73 +17,80 @@
     height: auto;
     border: 2px solid gold;
     border-radius: 12px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.casino img {
     transform: scale(1.15) rotate(-2deg);
     box-shadow: 0 0 15px gold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.casino img:hover {
+    transform: scale(1.2) rotate(0deg);
+    box-shadow: 0 0 25px gold;
+    filter: brightness(1.2);
 }
 
 .user-info {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    background: #222222cc;
-    /* fondo semi-transparente */
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
     border: 2px solid gold;
-    border-radius: 20px;
-    padding: 15px 25px;
-    min-width: 220px;
-    box-shadow: 0 0 15px gold;
-    text-align: right;
-    transition: transform 0.3s;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    gap: 12px;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+    width: 100%;
+    max-width: 400px;
 }
 
-.user-info {
-    transform: translateY(-3px);
-}
-
-.user-info p {
-    margin: 5px 0;
-    font-size: 16px;
+.user-info .datos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     color: gold;
-    text-shadow: 0 0 5px black;
+    font-weight: 600;
+    font-size: 16px;
+    text-shadow: 0 0 3px black;
+}
+
+.user-info .nombre::before {
+    content: "👤";
+    margin-right: 4px;
+}
+
+.user-info .saldo::before {
+    content: "💰";
+    margin-right: 4px;
 }
 
 .user-info button {
-    margin-top: 10px;
-    background: linear-gradient(135deg, #ffd700, #ffcc00);
+    background: linear-gradient(135deg, #ffe066, #ffcf33);
     color: #111;
     font-weight: bold;
     border: none;
     border-radius: 12px;
     padding: 10px 20px;
     cursor: pointer;
-    transition: all 0.3s;
+    box-shadow: 0 0 12px gold;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    width: 100%;
+    max-width: 200px;
 }
 
-.user-info button {
-    background: linear-gradient(135deg, #fff176, #ffeb3b);
-    box-shadow: 0 0 15px gold;
-    transform: scale(1.05);
+.user-info button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px gold;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .cabecera {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
+        padding: 16px 20px;
+        gap: 16px;
     }
 
     .user-info {
-        align-items: center;
-        text-align: center;
+        padding: 12px 16px;
     }
-
-    .user-info button {
-        padding: 8px 15px;
-    }
-
 }

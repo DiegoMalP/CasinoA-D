@@ -13,12 +13,12 @@ import "../styles/Casino.css";
 
 export default function Casino({ user, setUser, logout }) {
     // Inicializamos con "slots" para que se muestre al cargar
-    const [selectedGame, setSelectedGame] = useState("slots"); 
+    const [selectedGame, setSelectedGame] = useState("slots");
 
     return (
         <main className="cuerpo">
             <Header user={user} logout={logout} />
-            
+
             <MostPlayed setSelectedGame={setSelectedGame} />
 
             <section>
