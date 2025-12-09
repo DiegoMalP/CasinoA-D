@@ -17,11 +17,11 @@ export default function CarreraCaballos({ user, setUser }) {
     const posiciones = useRef([0, 0, 0, 0]);
     const velocidades = useRef([0, 0, 0, 0]);
 
-    const meta = 800; // pista más larga
+    const meta = 800;
     const animacionRef = useRef(null);
     const frameRef = useRef(0);
 
-    // CARGA IMAGENES
+    // CARGAR IMÁGENES
     useEffect(() => {
         const imgs = [Caballo1, Caballo2, Caballo3, Caballo4].map((src) => {
             const img = new Image();
@@ -45,10 +45,11 @@ export default function CarreraCaballos({ user, setUser }) {
 
         ctx.lineWidth = 2;
 
+        // Líneas de la pista
         for (let i = 1; i <= 4; i++) {
             ctx.beginPath();
-            ctx.moveTo(0, i * 90 - 20);
-            ctx.lineTo(canvas.width, i * 90 - 20);
+            ctx.moveTo(0, i * 95);
+            ctx.lineTo(canvas.width, i * 95);
             ctx.strokeStyle = "#81c784";
             ctx.stroke();
         }
@@ -56,25 +57,24 @@ export default function CarreraCaballos({ user, setUser }) {
         frameRef.current++;
 
         imagenes.current.forEach((caballo, i) => {
-            const galope = Math.sin(frameRef.current * 0.2 + i) * 6;
+            const galope = Math.sin(frameRef.current * 0.2 + i) * 4;
 
-            if (apuesta === i + 1) {
-                ctx.strokeStyle = "gold";
-                ctx.lineWidth = 4;
-                ctx.strokeRect(posiciones.current[i], 15 + i * 90 + galope, 80, 80);
-            }
+            // Posición Y centrada por carril
+            const laneY = 20 + i * 95;
+            const y = laneY + galope;
 
+            // Dibujar caballo SIN borde amarillo
             ctx.drawImage(
                 caballo,
                 posiciones.current[i],
-                20 + i * 90 + galope,
+                y,
                 80,
                 80
             );
         });
     };
 
-    // INICIAR
+    // INICIAR CARRERA
     const iniciar = () => {
         if (corriendo) return;
 
@@ -92,7 +92,7 @@ export default function CarreraCaballos({ user, setUser }) {
         posiciones.current = [0, 0, 0, 0];
         velocidades.current = Array(4)
             .fill(0)
-            .map(() => Math.random() * 0.4 + 0.5); // caballos más lentos
+            .map(() => Math.random() * 0.4 + 0.5);
 
         setMsg(`🏁 ¡Están corriendo! Apuesta por el caballo ${apuesta}`);
         setCorriendo(true);
@@ -100,13 +100,13 @@ export default function CarreraCaballos({ user, setUser }) {
         animacionRef.current = requestAnimationFrame(animar);
     };
 
-    // ANIMAR
+    // ANIMACIÓN
     const animar = () => {
         let fin = false;
 
         for (let i = 0; i < 4; i++) {
             posiciones.current[i] += velocidades.current[i];
-            posiciones.current[i] += Math.random() * 0.2; // movimiento más suave
+            posiciones.current[i] += Math.random() * 0.2;
 
             if (posiciones.current[i] >= meta) fin = true;
         }
@@ -164,23 +164,8 @@ export default function CarreraCaballos({ user, setUser }) {
         <div className="contenedor-carrera">
             <h1>🐎 Carrera de Caballos</h1>
 
+            {/* ZONA DE SELECCIÓN DE APUESTA */}
             <div className="apuesta">
-                <label>Elige tu caballo:</label>
-                {[1, 2, 3, 4].map((n) => (
-                    <button
-                        key={n}
-                        onClick={() => setApuesta(n)}
-                        disabled={corriendo}
-                        className={apuesta === n ? "seleccionado" : ""}
-                        style={{
-                            border: apuesta === n ? "3px solid gold" : "1px solid #333",
-                            backgroundColor: apuesta === n ? "#ffee58" : "white",
-                        }}
-                    >
-                        Caballo {n}
-                    </button>
-                ))}
-
                 <label>Monto de apuesta:</label>
                 <input
                     type="number"
@@ -193,12 +178,27 @@ export default function CarreraCaballos({ user, setUser }) {
                 />
             </div>
 
-            <canvas
-                ref={canvasRef}
-                width={900}
-                height={400}
-                className="carreraCanvas"
-            ></canvas>
+            {/* ZONA DE CARRERA */}
+            <div className="zona-carrera">
+                <div className="numeros-caballos">
+                    {[1, 2, 3, 4].map((n) => (
+                        <div
+                            key={n}
+                            className={`numero-caballo ${apuesta === n ? "seleccionado" : ""}`}
+                            onClick={() => !corriendo && setApuesta(n)}
+                        >
+                            {n}
+                        </div>
+                    ))}
+                </div>
+
+                <canvas
+                    ref={canvasRef}
+                    width={900}
+                    height={400}
+                    className="carreraCanvas"
+                ></canvas>
+            </div>
 
             <button onClick={iniciar} disabled={corriendo}>
                 {corriendo ? "Corriendo..." : "Correr"}

@@ -1,6 +1,5 @@
 .contenedor-carrera {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -20,19 +19,6 @@
     text-align: center;
 }
 
-
-.caballo.seleccionado {
-    border: 3px solid gold;
-    border-radius: 10px;
-    box-shadow: 0 0 15px gold;
-}
-
-.apuesta button.seleccionado {
-    border: 3px solid gold;
-    background-color: #ffee58;
-}
-
-
 .apuesta {
     background-color: #222;
     display: flex;
@@ -40,36 +26,42 @@
     color: white;
     box-shadow: 0 0 4px gold;
     padding: 20px;
-    gap: 5px;
+    gap: 10px;
     border-radius: 5px;
 }
 
 .apuesta label {
-    text-align: center;
     color: gold;
-    margin-bottom: 10px;
     border-bottom: 1px solid gold;
+    padding-bottom: 3px;
 }
 
-.apuesta input,
-button {
-    margin-bottom: 10px;
+.apuesta input {
     padding: 10px;
     border-radius: 10px;
     box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 button {
+    padding: 10px;
+    margin-bottom: 10px;
     background-color: white;
     color: black;
     cursor: pointer;
     border: none;
     border-radius: 10px;
+    transition: 0.2s;
 }
 
 button:hover {
     background-color: gold;
     color: black;
+}
+
+button.seleccionado {
+    border: 3px solid gold;
+    background-color: #ffee58;
 }
 
 .mensaje {
@@ -88,29 +80,53 @@ button:hover {
     background-color: #4caf50;
 }
 
-
-
-@keyframes pistaMovimiento {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: 40px 0;
-    }
+.zona-carrera {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-@media (max-width: 768px) {
-    .contenedor-carrera {
-        padding: 15px;
-        gap: 15px;
-    }
+.numeros-caballos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 400px;
+    gap: 10px;
+}
 
+.numero-caballo {
+    width: 50px;
+    height: 50px;
+    background: #222;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #555;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.numero-caballo:hover {
+    background: gold;
+    color: black;
+}
+
+.numero-caballo.seleccionado {
+    background: gold;
+    color: black;
+    border: 3px solid gold;
+    box-shadow: 0 0 10px gold;
+}
+
+
+@media (max-width: 768px) {
     .apuesta {
         flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding: 15px;
         width: 90%;
         text-align: center;
     }
@@ -120,15 +136,20 @@ button:hover {
         width: 100%;
     }
 
-    .carreraCanvas {
-        width: 100%;
+    .zona-carrera {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .numeros-caballos {
+        flex-direction: row;
         height: auto;
+        gap: 20px;
     }
 }
 
 @media (max-width: 480px) {
     .apuesta button {
         width: 100%;
-        margin-bottom: 10px;
     }
 }
