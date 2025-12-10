@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import Caballo1 from "../Imagenes/caballos/icons8-horse-80.png";
+import Caballo1 from "../Imagenes/caballos/icons8-horse-64.png";
 import Caballo2 from "../Imagenes/caballos/icons8-horse2-64.png";
 import Caballo3 from "../Imagenes/caballos/icons8-horse3-64.png";
 import Caballo4 from "../Imagenes/caballos/icons8-horse4-64.png";
@@ -62,14 +62,13 @@ export default function CarreraCaballos({ user, setUser }) {
             // Posición Y centrada por carril
             const laneY = 20 + i * 95;
             const y = laneY + galope;
-
-            // Dibujar caballo SIN borde amarillo
+            
             ctx.drawImage(
                 caballo,
                 posiciones.current[i],
                 y,
-                80,
-                80
+                64,
+                64
             );
         });
     };
