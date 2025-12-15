@@ -6,7 +6,7 @@ export default function App() {
     useEffect(() => {
         if (!window.__n8nChatLoaded) {
             createChat({
-                webhookUrl: 'https://hooly-subcontiguous-mitchell.ngrok-free.dev/webhook/5fb87121-8405-4874-8117-b0dea8e923ca/chat',
+                webhookUrl: 'https://hooly-subcontiguous-mitchell.ngrok-free.dev/webhook/4bb5ebc3-dc8f-4ddd-a2ce-52fc9df53e4c/chat',
 
                 chatSessionKey: 'sessionId',
                 loadPreviousSession: false,
